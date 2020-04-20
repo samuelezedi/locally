@@ -1,3 +1,8 @@
+## 0.1.0+1
+
+* Changed Navigation rules in locally class
+
+
 ## 0.0.6+3
 
 * Removed an error causing function in Locally
