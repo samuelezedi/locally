@@ -9,7 +9,7 @@ class Locally {
   String body;
   String payload;
   String appIcon;
-  MaterialPageRoute pageRoute;
+  Navigator pageRoute;
   BuildContext context;
 
   //local notification initialization
@@ -24,7 +24,7 @@ class Locally {
       @required this.title,
       @required this.body,
       @required this.pageRoute,
-      @required this.appIcon,
+        @required this.appIcon,
       this.payload}) {
     initializationSettingAndroid =
         new AndroidInitializationSettings(this.appIcon);
@@ -37,7 +37,7 @@ class Locally {
   }
 
   Future onSelectNotification(String payload) async {
-    await Navigator.push(context, pageRoute);
+    await pageRoute;
   }
 
   Future onDidReceiveNotification(id, title, body, payload) async {
@@ -51,6 +51,7 @@ class Locally {
               isDefaultAction: true,
               child: Text('Ok'),
               onPressed: () async {
+                Navigator.of(context, rootNavigator: true).pop();
                 await Navigator.push(context, pageRoute);
               },
             )
