@@ -15,12 +15,12 @@ class _ChecksState extends State<Checks> {
     // TODO: implement initState
     super.initState();
     locally = Locally(
-      context: this.context,
+      context: context,
       body: 'You have a new message',
       title: 'New message',
       appIcon: 'pronoun',
     );
-    locally.show();
+    locally.show(index: 0);
   }
 
   @override

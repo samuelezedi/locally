@@ -14,13 +14,14 @@ class Locally {
   MaterialPageRoute pageRoute;
   BuildContext context;
 
+
   //local notification initialization
   FlutterLocalNotificationsPlugin localNotificationsPlugin = FlutterLocalNotificationsPlugin();
   var initializationSettingAndroid;
   var initializationSettingIos;
   var initializationSetting;
 
-  Locally({this.title, this.body, this.context, this.pageRoute, this.payload, this.image, this.appIcon}) {
+  Locally({@required this.context,this.title, this.body, this.pageRoute, this.payload, this.image, this.appIcon}) {
 
     initializationSettingAndroid = new AndroidInitializationSettings(this.appIcon);
     initializationSettingIos = new IOSInitializationSettings(
@@ -55,18 +56,24 @@ class Locally {
     );
   }
 
-  show() async {
+  show({
+    int index=0,
+    String channelId = 'channelID',
+    String channelName = 'channel name',
+    String channelDescription = 'channel description'
+  }) async {
+
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-        'channel_ID', 'channel name', 'channel description',
+        channelId, channelName, channelDescription,
         importance: Importance.High,
         priority: Priority.High,
         ticker: 'test ticker'
     );
 
-    var IOSPlatformChannelSpecifics = IOSNotificationDetails();
-    var platformChannelSpecifics = NotificationDetails(androidPlatformChannelSpecifics, IOSPlatformChannelSpecifics);
+    var iosPlatformChannelSpecifics = IOSNotificationDetails();
+    var platformChannelSpecifics = NotificationDetails(androidPlatformChannelSpecifics, iosPlatformChannelSpecifics);
 
-    await localNotificationsPlugin.show(0, title, body, platformChannelSpecifics, payload: payload);
+    await localNotificationsPlugin.show(index, title, body, platformChannelSpecifics, payload: payload);
   }
 
 }
