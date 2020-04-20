@@ -14,6 +14,7 @@ class Locally {
   MaterialPageRoute pageRoute;
   BuildContext context;
 
+  //local notification initialization
   FlutterLocalNotificationsPlugin localNotificationsPlugin = FlutterLocalNotificationsPlugin();
   var initializationSettingAndroid;
   var initializationSettingIos;
