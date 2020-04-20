@@ -70,7 +70,7 @@ packages:
     source: sdk
     version: "0.0.0"
   flutter_local_notifications:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: flutter_local_notifications
       url: "https://pub.dartlang.org"
@@ -95,6 +95,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.4"
+  locally:
+    dependency: "direct main"
+    description:
+      name: locally
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.6+3"
   matcher:
     dependency: transitive
     description:

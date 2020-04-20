@@ -1,6 +1,6 @@
-import 'package:example/l.dart';
 import 'package:example/second_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:locally/locally.dart';
 
 void main() => runApp(MyApp());
 
@@ -47,8 +47,8 @@ class _MyHomePageState extends State<MyHomePage> {
           title: title.text.toString(),
           body: title.text.toString(),
           appIcon: 'mipmap/ic_launcher',
-          pageRoute: MaterialPageRoute(builder: ( context ) =>
-              SecondScreen(title: title.text, message: message.text,))
+          pageRoute: Navigator(context, MaterialPageRoute(builder: ( context ) =>
+              SecondScreen(title: title.text, message: message.text,)))
       );
       locally.show();
     }

@@ -51,8 +51,7 @@ class Locally {
               isDefaultAction: true,
               child: Text('Ok'),
               onPressed: () async {
-                Navigator.of(context, rootNavigator: true).pop();
-                await Navigator.push(context, pageRoute);
+                await pageRoute;
               },
             )
           ],

@@ -1,3 +1,7 @@
+## 0.0.6+3
+
+* Removed an error causing function in Locally
+
 ## 0.0.5
 
 * Added a better `CHANGELOG.md` file.
