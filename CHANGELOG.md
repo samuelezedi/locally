@@ -1,3 +1,3 @@
-## [0.0.1] - Release
+## [0.0.3] - Release
 
-* TODO: Describe initial release.
+* ImageProvider property was removed, appIcon was made required in class initialization

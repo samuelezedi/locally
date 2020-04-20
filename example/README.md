@@ -1,6 +1,6 @@
-# locally example project
+# example
 
-Example Application for Locally Package
+A new Flutter application.
 
 ## Getting Started
 

@@ -1,12 +1,11 @@
+import 'package:example/l.dart';
+import 'package:example/second_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:locally/locally.dart';
-
-import 'send_screen.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -21,7 +20,6 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
-
   final String title;
 
   @override
@@ -29,33 +27,36 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
   var _formKey = GlobalKey<FormState>();
   TextEditingController title = TextEditingController();
   TextEditingController message = TextEditingController();
 
-  
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
   }
 
   showMessage() {
     if(_formKey.currentState.validate()) {
       _formKey.currentState.save();
-      Locally(
+      Locally locally;
+      locally = Locally(
           context: context,
-          title: title.text,
-          body: message.text,
+          title: title.text.toString(),
+          body: title.text.toString(),
+          appIcon: 'mipmap/ic_launcher',
           pageRoute: MaterialPageRoute(builder: ( context ) =>
-              SecondScreen(title: title.text, message: message.text,))).show();
+              SecondScreen(title: title.text, message: message.text,))
+      );
+      locally.show();
     }
   }
 
   @override
   Widget build(BuildContext context) {
- 
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -67,7 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
         },
       ),
       body: Center(
-       
+
         child: Form(
           key: _formKey,
           child: Column(
@@ -82,8 +83,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     return v.isEmpty ? 'Enter title' : null;
                   },
                   decoration: InputDecoration(
-                    hintText: 'Title',
-                    labelText: 'Title'
+                      hintText: 'Title',
+                      labelText: 'Title'
                   ),
                 ),
               ),
