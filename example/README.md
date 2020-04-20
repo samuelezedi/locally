@@ -1,4 +1,4 @@
-# example
+# locally example projecct
 
 Example Application for Locally Package
 
