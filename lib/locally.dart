@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class Locally {
-
   String title;
   String body;
   String payload = 'test payload';
@@ -14,31 +13,39 @@ class Locally {
   MaterialPageRoute pageRoute;
   BuildContext context;
 
-
   //local notification initialization
-  FlutterLocalNotificationsPlugin localNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  FlutterLocalNotificationsPlugin localNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
   var initializationSettingAndroid;
   var initializationSettingIos;
   var initializationSetting;
 
-  Locally({@required this.context,this.title, this.body, this.pageRoute, this.payload, this.image, this.appIcon}) {
-
-    initializationSettingAndroid = new AndroidInitializationSettings(this.appIcon);
+  Locally(
+      {@required this.context,
+      @required this.title,
+      @required this.body,
+      @required this.pageRoute,
+      this.payload,
+      this.image,
+      this.appIcon}) {
+    initializationSettingAndroid =
+        new AndroidInitializationSettings(this.appIcon);
     initializationSettingIos = new IOSInitializationSettings(
-        onDidReceiveLocalNotification: onDidReceiveNotification
-    );
-    initializationSetting = new InitializationSettings(initializationSettingAndroid, initializationSettingIos);
-    localNotificationsPlugin.initialize(initializationSetting, onSelectNotification: onSelectNotification);
-
+        onDidReceiveLocalNotification: onDidReceiveNotification);
+    initializationSetting = new InitializationSettings(
+        initializationSettingAndroid, initializationSettingIos);
+    localNotificationsPlugin.initialize(initializationSetting,
+        onSelectNotification: onSelectNotification);
   }
 
   Future onSelectNotification(String payload) async {
     Navigator.of(context, rootNavigator: true).pop();
-      await Navigator.push(context, pageRoute);
+    await Navigator.push(context, pageRoute);
   }
 
   Future onDidReceiveNotification(id, title, body, payload) async {
-    await showDialog(context: context,
+    await showDialog(
+        context: context,
         child: CupertinoAlertDialog(
           title: title,
           content: Text(body),
@@ -52,28 +59,25 @@ class Locally {
               },
             )
           ],
-        )
-    );
+        ));
   }
 
-  show({
-    int index=0,
-    String channelId = 'channelID',
-    String channelName = 'channel name',
-    String channelDescription = 'channel description'
-  }) async {
-
+  show(
+      {int index = 0,
+      String channelId = 'channelID',
+      String channelName = 'channelName',
+      String channelDescription = 'channelDescription'}) async {
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
         channelId, channelName, channelDescription,
         importance: Importance.High,
         priority: Priority.High,
-        ticker: 'test ticker'
-    );
+        ticker: 'test ticker');
 
     var iosPlatformChannelSpecifics = IOSNotificationDetails();
-    var platformChannelSpecifics = NotificationDetails(androidPlatformChannelSpecifics, iosPlatformChannelSpecifics);
+    var platformChannelSpecifics = NotificationDetails(
+        androidPlatformChannelSpecifics, iosPlatformChannelSpecifics);
 
-    await localNotificationsPlugin.show(index, title, body, platformChannelSpecifics, payload: payload);
+    await localNotificationsPlugin
+        .show(index, title, body, platformChannelSpecifics, payload: payload);
   }
-
 }
