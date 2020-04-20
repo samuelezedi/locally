@@ -49,7 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
           title: title.text,
           body: message.text,
           pageRoute: MaterialPageRoute(builder: ( context ) =>
-              SecondScreen(title: title.text, message: message.text,)));
+              SecondScreen(title: title.text, message: message.text,))).show();
     }
   }
 
