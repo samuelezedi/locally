@@ -1,4 +1,4 @@
-## 0.2.6+5
+## 0.2.6+6
 
 * Created helper file with helper classes in it
 

@@ -1,6 +1,6 @@
 # Locally
 
-[![pub package](https://img.shields.io/badge/pub-0.2.6%2B4-brightgreen)](https://pub.dev/packages/locally)
+[![pub package](https://img.shields.io/badge/pub-0.2.6%2B-6brightgreen)](https://pub.dev/packages/locally)
 
 ## flutter local notification
 
@@ -114,7 +114,8 @@ Here's and example of what your `AndroidManifest.xml` should look like [here](ht
 When doing a release build of your app, which is the default setting when building an APK or app bundle, you'll likely need to customise your ProGuard configuration file as per this [link](https://developer.android.com/studio/build/shrink-code#keep-code) and add the following line.
 
 ```
--keep class com.dexterous.** { *; } ```
+-keep class com.dexterous.** { *; }
+```
 
 After doing so, rules specific to the GSON dependency being used by the plugin will also needed to be added. These rules can be found [here](https://github.com/google/gson/blob/master/examples/android-proguard-example/proguard.cfg). The example app has a consolidated Proguard rules (`proguard-rules.pro`) file that combines these together for reference [here](https://github.com/MaikuB/flutter_local_notifications/blob/master/flutter_local_notifications/example/android/app/proguard-rules.pro).
 
