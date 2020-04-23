@@ -1,3 +1,17 @@
+## 0.2.0
+
+* Fixed Navigation Error
+
+* Added scheduleNotification
+
+* Added showPeriodically method
+
+* Added showDailyAtTime method
+
+* Added showWeeklyAtDayAndTime method
+
+* Added retrievePendingNotifications method
+
 ## 0.1.0+1
 
 * Changed Navigation rules in locally class
