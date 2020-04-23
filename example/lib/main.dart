@@ -1,6 +1,7 @@
 import 'package:example/second_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:locally/locally.dart';
+
+import 'l.dart';
 
 void main() => runApp(MyApp());
 
@@ -44,13 +45,13 @@ class _MyHomePageState extends State<MyHomePage> {
       Locally locally;
       locally = Locally(
           context: context,
-          title: title.text.toString(),
-          body: title.text.toString(),
+          payload: 'test',
+          pageRoute: MaterialPageRoute(builder: (context) => SecondScreen(title: 'sdf', message: 'ds')),
           appIcon: 'mipmap/ic_launcher',
-          pageRoute: Navigator(context, MaterialPageRoute(builder: ( context ) =>
-              SecondScreen(title: title.text, message: message.text,)))
       );
-      locally.show();
+
+      locally.schedule(title: title.text, message: message.text, duration: Duration(seconds: 3));
+
     }
   }
 

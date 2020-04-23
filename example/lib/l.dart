@@ -27,7 +27,7 @@ class Locally {
         @required this.context,
         @required this.pageRoute,
         @required this.appIcon,
-        this.payload,
+        @required this.payload,
         this.iosRequestSoundPermission,
         this.iosRequestBadgePermission,
         this.iosRequestAlertPermission,
@@ -80,28 +80,33 @@ class Locally {
         ticker = 'test ticker'
       }
       ) async {
-    this.title = title;
-    this.message = message;
+
+    if(title == null && message == null){
+      throw "Missing parameters, title: message";
+    } else {
+      this.title = title;
+      this.message = message;
 
 
-    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-        channelID,
-        channelName,
-        channelDescription,
-        importance: importance,
-        priority: priority,
-        ticker: ticker
-    );
+      var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+          channelID,
+          channelName,
+          channelDescription,
+          importance: importance,
+          priority: priority,
+          ticker: ticker
+      );
 
-    var iosPlatformChannelSpecifics = IOSNotificationDetails();
+      var iosPlatformChannelSpecifics = IOSNotificationDetails();
 
-    var platformChannelSpecifics = NotificationDetails(
-        androidPlatformChannelSpecifics,
-        iosPlatformChannelSpecifics
-    );
+      var platformChannelSpecifics = NotificationDetails(
+          androidPlatformChannelSpecifics,
+          iosPlatformChannelSpecifics
+      );
 
-    await localNotificationsPlugin
-        .show(0, title, message, platformChannelSpecifics, payload: payload);
+      await localNotificationsPlugin
+          .show(0, title, message, platformChannelSpecifics, payload: payload);
+    }
   }
 
   schedule({
@@ -112,23 +117,30 @@ class Locally {
     channelDescription = 'channel Description',
     Importance importance = Importance.High,
     Priority priority = Priority.High,
-    ticker = 'test ticker'
-  }) async {
-    var scheduledNotificationDateTime =
-    DateTime.now().add(Duration(seconds: 5));
-    var androidPlatformChannelSpecifics =
-    AndroidNotificationDetails(channelID,
-        channelName, channelDescription);
-    var iOSPlatformChannelSpecifics =
-    IOSNotificationDetails();
-    NotificationDetails platformChannelSpecifics = NotificationDetails(
-        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
-    await localNotificationsPlugin.schedule(
-        0,
-        title,
-        message,
-        scheduledNotificationDateTime,
-        platformChannelSpecifics);
+    ticker = 'test ticker',
+    @required Duration duration
+    }) async {
+    if(title == null && message == null && duration == null){
+      throw "Missing parameters, title: message: duration";
+    } else {
+
+      var scheduledNotificationDateTime =
+      DateTime.now().add(duration);
+
+      var androidPlatformChannelSpecifics =
+      AndroidNotificationDetails(channelID,
+          channelName, channelDescription);
+      var iOSPlatformChannelSpecifics =
+      IOSNotificationDetails();
+      NotificationDetails platformChannelSpecifics = NotificationDetails(
+          androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+      await localNotificationsPlugin.schedule(
+          0,
+          title,
+          message,
+          scheduledNotificationDateTime,
+          platformChannelSpecifics);
+    }
   }
 
   showPeriodically({
@@ -140,16 +152,21 @@ class Locally {
     Importance importance = Importance.High,
     Priority priority = Priority.High,
     ticker = 'test ticker'
-  })async {
-    var androidPlatformChannelSpecifics =
-    AndroidNotificationDetails(channelID,
-        channelName, channelDescription);
-    var iOSPlatformChannelSpecifics =
-    IOSNotificationDetails();
-    var platformChannelSpecifics = NotificationDetails(
-        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
-    await localNotificationsPlugin.periodicallyShow(0, title,
-        message, RepeatInterval.EveryMinute, platformChannelSpecifics);
+    })async {
+
+    if(title == null && message == null){
+      throw "Missing parameters, title: message";
+    } else {
+      var androidPlatformChannelSpecifics =
+      AndroidNotificationDetails(channelID,
+          channelName, channelDescription);
+      var iOSPlatformChannelSpecifics =
+      IOSNotificationDetails();
+      var platformChannelSpecifics = NotificationDetails(
+          androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+      await localNotificationsPlugin.periodicallyShow(0, title,
+          message, RepeatInterval.EveryMinute, platformChannelSpecifics);
+    }
   }
 
   showDailyAtTime({
@@ -163,30 +180,34 @@ class Locally {
     ticker = 'test ticker',
     @required Time time,
     bool suffixTime = false
-  }) async {
-    var androidPlatformChannelSpecifics =
-    AndroidNotificationDetails(channelID,
-        channelName, channelDescription);
-    var iOSPlatformChannelSpecifics =
-    IOSNotificationDetails();
-    var platformChannelSpecifics = NotificationDetails(
-        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
-    if(suffixTime) {
-      await localNotificationsPlugin.showDailyAtTime(
-          0,
-          title,
-          message + "${
-              time.hour.toString()}:${time.minute.toString()}:${
-              time.second.toString()}",
-          time,
-          platformChannelSpecifics);
+    }) async {
+    if(title == null && message == null){
+      throw "Missing parameters, title: message";
     } else {
-      await localNotificationsPlugin.showDailyAtTime(
-          0,
-          title,
-          message,
-          time,
-          platformChannelSpecifics);
+      var androidPlatformChannelSpecifics =
+      AndroidNotificationDetails(channelID,
+          channelName, channelDescription);
+      var iOSPlatformChannelSpecifics =
+      IOSNotificationDetails();
+      var platformChannelSpecifics = NotificationDetails(
+          androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+      if (suffixTime) {
+        await localNotificationsPlugin.showDailyAtTime(
+            0,
+            title,
+            message + "${
+                time.hour.toString()}:${time.minute.toString()}:${
+                time.second.toString()}",
+            time,
+            platformChannelSpecifics);
+      } else {
+        await localNotificationsPlugin.showDailyAtTime(
+            0,
+            title,
+            message,
+            time,
+            platformChannelSpecifics);
+      }
     }
   }
 }
