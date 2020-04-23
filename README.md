@@ -1,5 +1,7 @@
 # locally
 
+[![pub package](https://img.shields.io/badge/pub-0.2.6%2B4-brightgreen)](https://pub.dev/packages/locally)
+
 ## flutter local notification
 
 Locally helps developers create local notification with flutter on both Android and IOS platforms, it depends on the flutter_local_notification plugin and tries to make usage more simple and user friendly.
