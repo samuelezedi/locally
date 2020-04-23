@@ -1,7 +1,6 @@
 import 'package:example/second_screen.dart';
 import 'package:flutter/material.dart';
-
-import 'l.dart';
+import 'package:locally/locally.dart';
 
 void main() => runApp(MyApp());
 
