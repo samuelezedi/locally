@@ -1,3 +1,10 @@
+## 0.2.6
+
+* Created helper file with helper classes in it
+
+* Cleaned up Locally codebase
+
+
 ## 0.2.5+2
 
 * Commented on all Locally Method
