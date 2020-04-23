@@ -18,6 +18,7 @@ Locally helps developers create local notification with flutter on both Android 
 
 ### Show basic notification
 ```
+dart
 //
 Locally locally = Locally(
           context: context,
@@ -31,6 +32,8 @@ Locally locally = Locally(
 
 ### show notification
 ```
+dart
+
 locally.show(title: title.text, message: message.text);
 ```
 
@@ -138,48 +141,6 @@ if #available(iOS 10.0, *) {
 ```
 
 By design, iOS applications do not display notifications when they're in the foreground. For iOS 10+, use the presentation options to control the behaviour for when a notification is triggered while the app is in the foreground. For older versions of iOS, you need to handle the callback as part of specifying the method that should be fired to the `onDidReceiveLocalNotification` argument when creating an instance `IOSInitializationSettings` object that is passed to the function for initializing the plugin. A snippet below from the sample app shows how this can be done
-
-```dart
-// initialise the plugin. app_icon needs to be a added as a drawable resource to the Android head project
-var initializationSettingsAndroid =
-    AndroidInitializationSettings('app_icon');
-var initializationSettingsIOS = IOSInitializationSettings(
-    onDidReceiveLocalNotification: onDidReceiveLocalNotification);
-var initializationSettings = InitializationSettings(
-    initializationSettingsAndroid, initializationSettingsIOS);
-flutterLocalNotificationsPlugin.initialize(initializationSettings,
-    onSelectNotification: onSelectNotification);
-
-...
-
-  Future onDidReceiveLocalNotification(
-      int id, String title, String body, String payload) async {
-    // display a dialog with the notification details, tap ok to go to another page
-    showDialog(
-      context: context,
-      builder: (BuildContext context) => CupertinoAlertDialog(
-            title: Text(title),
-            content: Text(body),
-            actions: [
-              CupertinoDialogAction(
-                isDefaultAction: true,
-                child: Text('Ok'),
-                onPressed: () async {
-                  Navigator.of(context, rootNavigator: true).pop();
-                  await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => SecondScreen(payload),
-                    ),
-                  );
-                },
-              )
-            ],
-          ),
-    );
-  }
-
-```
 
 If you have set notifications to be periodically shown, then on older iOS versions (< 10), if the application was uninstalled without cancelling all alarms then the next time it's installed you may see the "old" notifications being fired. If this is not the desired behaviour, then you can add code similar to the following to the `didFinishLaunchingWithOptions` method of your `AppDelegate` class.
 
