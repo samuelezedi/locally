@@ -17,8 +17,7 @@ Locally helps developers create local notification with flutter on both Android 
 ## Usage
 
 ### Show basic notification
-```
-dart
+```dart
 //
 Locally locally = Locally(
           context: context,
@@ -31,24 +30,23 @@ Locally locally = Locally(
 ```
 
 ### show notification
-```
-dart
+```dart
 
 locally.show(title: title.text, message: message.text);
 ```
 
 ### schedule notification
-```
+```dart
 locally.schedule(title: title.text, message: message.text, duration: Duration(seconds: 5));
 ```
 
 ### Show a notification with a specified interval periodically
-```
+```dart
 locally.showPeriodically(title: title.text, message: message.text, repeatInterval: Repeat.Hourly);
 ```
 
 ### Show a daily notification at a specific timely
-```
+```dart
 locally.showDailyAtTime(title: title.text, message: message.text, time: Time.hour);
 ```
 
@@ -58,22 +56,22 @@ locally.showWeeklyAtDayAndTime(title: title.text, message: message.text, time: T
 ```
 
 ### Retrieve pending notification requests
-```
+```dart
 locally.retrievePendingNotifications();
 ```
 
 ### Cancelling/deleting a notification
-```
+```dart
 locally.cancel(0);
 ```
 
 ### Cancelling/deleting all notification
-```
+```dart
 locally.cancelAll();
 ```
 
 ### Get details on if the app was launched via a notification created by this plugin
-```
+```dart
 locally.getDetailsIfAppWasLaunchedViaNotification();
 ```
 
