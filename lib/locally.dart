@@ -138,6 +138,14 @@ class Locally {
         ));
   }
 
+  /// The show Method return a notification to the screen
+  /// it takes in a required title, message
+  /// channel Name,
+  /// channel ID,
+  /// channel Description,
+  /// importance,
+  /// priority
+  /// ticker
   Future show(
       {@required title,
       @required message,
@@ -167,6 +175,16 @@ class Locally {
     }
   }
 
+  /// The scheduleMethod return  a notification to the screen
+  /// But with this you can schedule a messag to show at a given time
+  /// it takes in a required title, message
+  /// channel Name,
+  /// channel ID,
+  /// channel Description,
+  /// importance,
+  /// priority
+  /// ticker
+  /// and a Duration class
   Future schedule(
       {@required title,
       @required message,
@@ -193,6 +211,17 @@ class Locally {
     }
   }
 
+
+  /// The showPeriodicallyd return  a notification to the screen
+  /// But with this you can repeat a message to show at a given interval
+  /// it takes in a required title, message
+  /// channel Name,
+  /// channel ID,
+  /// channel Description,
+  /// importance,
+  /// priority
+  /// ticker
+  /// and a repeat interval
   Future showPeriodically(
       {@required title,
       @required message,
@@ -201,9 +230,10 @@ class Locally {
       channelDescription = 'channel Description',
       Importance importance = Importance.High,
       Priority priority = Priority.High,
+        @required RepeatInterval repeatInterval,
       ticker = 'test ticker'}) async {
-    if (title == null && message == null) {
-      throw "Missing parameters, title: message";
+    if (title == null && message == null && repeatInterval == null) {
+      throw "Missing parameters, title: message, repeat interval";
     } else {
       var androidPlatformChannelSpecifics = AndroidNotificationDetails(
           channelID, channelName, channelDescription);
@@ -211,10 +241,20 @@ class Locally {
       var platformChannelSpecifics = NotificationDetails(
           androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
       await localNotificationsPlugin.periodicallyShow(0, title, message,
-          RepeatInterval.EveryMinute, platformChannelSpecifics);
+          repeatInterval, platformChannelSpecifics);
     }
   }
 
+  /// The showDailyAtTime return a notification to the screen
+  /// But with this you can decide to show a message at a given time in the day
+  /// it takes in a required title, message
+  /// channel Name,
+  /// channel ID,
+  /// channel Description,
+  /// importance,
+  /// priority
+  /// ticker
+  /// and a time
   Future showDailyAtTime(
       {@required title,
       @required message,
@@ -249,6 +289,18 @@ class Locally {
     }
   }
 
+  /// The showWeeklyAtDayAndTime return a notification to the screen
+  /// But with this you can decide to show a message at a given day of the week
+  /// and at a given time
+  /// it takes in a required title, message
+  /// channel Name,
+  /// channel ID,
+  /// channel Description,
+  /// importance,
+  /// priority
+  /// ticker
+  /// and a time
+  /// and Day
   Future showWeeklyAtDayAndTime(
       {@required title,
       @required message,
@@ -284,10 +336,16 @@ class Locally {
     }
   }
 
+  /// The retrievePendingNotifications return all pending
+  /// notification to the screen
+  ///
   Future retrievePendingNotifications() async {
     return await localNotificationsPlugin.pendingNotificationRequests();
   }
 
+  /// The cancel method as the name goes
+  /// cancels a with a provided index id
+  ///
   Future cancel(int index) async {
     if (index == null) {
       throw 'Error: index required';
@@ -296,10 +354,17 @@ class Locally {
     }
   }
 
+  /// The cancelAll method as the name goes
+  /// cancels all pending notification
+  ///
   Future cancelAll() async {
     localNotificationsPlugin.cancelAll();
   }
 
+  /// The getDetailsIfAppWasLaunchedViaNotification
+  /// return details if the app was lauched by a notification
+  /// payload
+  ///
   Future getDetailsIfAppWasLaunchedViaNotification() async {
     return localNotificationsPlugin.getNotificationAppLaunchDetails();
   }
