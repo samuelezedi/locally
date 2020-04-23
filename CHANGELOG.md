@@ -1,3 +1,16 @@
+## 0.2.5
+
+* Commented on all Locally Method
+
+* Corrected some declarations
+
+* Added cancel method
+
+* Added cancelAll method
+
+* Added getDetailsIfAppWasLaunchedViaNotification method
+
+
 ## 0.2.0
 
 * Fixed Navigation Error
