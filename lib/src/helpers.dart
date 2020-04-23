@@ -1,8 +1,6 @@
-
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class Repeat {
-
   const Repeat(this.value);
 
   static const RepeatInterval Hourly = RepeatInterval.Hourly;
@@ -18,7 +16,6 @@ class Repeat {
       [Hourly, Daily, EveryMinute, Weekly];
 
   final int value;
-
 }
 
 class Priority {
@@ -63,7 +60,6 @@ class Time {
 
   final int value;
 }
-
 
 class Days {
   const Days(this.value);
