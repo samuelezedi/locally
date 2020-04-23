@@ -43,10 +43,11 @@ class _MyHomePageState extends State<MyHomePage> {
     if(_formKey.currentState.validate()) {
       _formKey.currentState.save();
       Locally locally;
+
       locally = Locally(
           context: context,
           payload: 'test',
-          pageRoute: MaterialPageRoute(builder: (context) => SecondScreen(title: 'sdf', message: 'ds')),
+          pageRoute: MaterialPageRoute(builder: (context) => SecondScreen(title: title.text, message: message.text)),
           appIcon: 'mipmap/ic_launcher',
       );
 
