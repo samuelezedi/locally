@@ -50,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
           appIcon: 'mipmap/ic_launcher',
       );
 
-      locally.schedule(title: title.text, message: message.text, duration: Duration(seconds: 3));
+      locally.show(title: title.text, message: message.text);
 
     }
   }

@@ -108,7 +108,7 @@ class Locally {
     }
   }
 
-  schedule(
+  Future schedule(
       {@required title,
         @required message,
         channelName = 'channel Name',
@@ -134,7 +134,7 @@ class Locally {
     }
   }
 
-  showPeriodically(
+  Future showPeriodically(
       {@required title,
         @required message,
         channelName = 'channel Name',
@@ -156,7 +156,7 @@ class Locally {
     }
   }
 
-  showDailyAtTime(
+  Future showDailyAtTime(
       {@required title,
         @required message,
         channelName = 'channel Name',
@@ -190,7 +190,7 @@ class Locally {
     }
   }
 
-  showWeeklyAtDayAndTime(
+  Future showWeeklyAtDayAndTime(
       {@required title,
         @required message,
         channelName = 'channel Name',
@@ -225,63 +225,11 @@ class Locally {
     }
   }
 
-  retrievePendingNotifications() async {
+  Future retrievePendingNotifications() async {
     return await localNotificationsPlugin.pendingNotificationRequests();
   }
 
-  //Android Grouping alone
-  group(
-      {@required title,
-        @required message,
-        groupKey = 'com.android.example.WORK_EMAIL',
-        groupChannelId = 'grouped channel id',
-        groupChannelName = 'grouped channel name',
-        groupChannelDescription = 'grouped channel description',
-        Importance importance = Importance.High,
-        Priority priority = Priority.High,
-        ticker = 'test ticker',
-        @required Time time,
-        Day day,
-        bool suffixTime = false}) async {
-    AndroidNotificationDetails firstNotificationAndroidSpecifics =
-    AndroidNotificationDetails(
-        groupChannelId, groupChannelName, groupChannelDescription,
-        importance: importance, priority: priority, groupKey: groupKey);
-    NotificationDetails firstNotificationPlatformSpecifics =
-    NotificationDetails(firstNotificationAndroidSpecifics, null);
-    await localNotificationsPlugin.show(
-        1, title, message, firstNotificationPlatformSpecifics);
-
-    AndroidNotificationDetails secondNotificationAndroidSpecifics =
-    AndroidNotificationDetails(
-        groupChannelId, groupChannelName, groupChannelDescription,
-        importance: Importance.Max,
-        priority: Priority.High,
-        groupKey: groupKey);
-    NotificationDetails secondNotificationPlatformSpecifics =
-    NotificationDetails(secondNotificationAndroidSpecifics, null);
-    await localNotificationsPlugin.show(
-        2, title, message, secondNotificationPlatformSpecifics);
-
-// create the summary notification required for older devices that pre-date Android 7.0 (API level 24)
-    List<String> lines = List<String>();
-    lines.add('Alex Faarborg  Check this out');
-    lines.add('Jeff Chang    Launch Party');
-    InboxStyleInformation inboxStyleInformation = InboxStyleInformation(lines,
-        contentTitle: '2 new messages', summaryText: 'janedoe@example.com');
-    AndroidNotificationDetails androidPlatformChannelSpecifics =
-    AndroidNotificationDetails(
-        groupChannelId, groupChannelName, groupChannelDescription,
-        styleInformation: inboxStyleInformation,
-        groupKey: groupKey,
-        setAsGroupSummary: true);
-    NotificationDetails platformChannelSpecifics =
-    NotificationDetails(androidPlatformChannelSpecifics, null);
-    await localNotificationsPlugin.show(
-        3, 'Attention', 'Two new messages', platformChannelSpecifics);
-  }
-
-  cancel(index) async {
+  Future cancel(int index) async {
     if (index == null) {
       throw 'Error: index required';
     } else {
@@ -289,11 +237,11 @@ class Locally {
     }
   }
 
-  cancelAll() async {
+  Future cancelAll() async {
     localNotificationsPlugin.cancelAll();
   }
 
-  getDetailsIfAppWasLaunchedViaNotification() async {
+  Future getDetailsIfAppWasLaunchedViaNotification() async {
     return localNotificationsPlugin.getNotificationAppLaunchDetails();
   }
 }
