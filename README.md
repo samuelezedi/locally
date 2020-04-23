@@ -1,4 +1,4 @@
-# locally
+# Locally
 
 [![pub package](https://img.shields.io/badge/pub-0.2.6%2B4-brightgreen)](https://pub.dev/packages/locally)
 
