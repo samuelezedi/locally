@@ -10,7 +10,7 @@
 
 library locally;
 
-import 'src/helpers.dart' as helpers;
+import 'package:example/helpers.dart' as helpers;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

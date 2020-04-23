@@ -1,4 +1,4 @@
-## 0.2.5
+## 0.2.5+2
 
 * Commented on all Locally Method
 
