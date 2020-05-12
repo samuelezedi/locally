@@ -1,4 +1,5 @@
 
+import 'package:example/b.dart';
 import 'package:example/second_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:locally/locally.dart';
@@ -76,6 +77,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+              LinkWell(
+//                text: 'menand'
+              text: """My website url: https://blasanka.github.io/ Google sam@mail.com search medium.com/@samuelezedi using: www.google.com, social gdk@gmail.com media is facebook.com, http://example.com/method?param=flutter stackoverflow.com is my greatest website. DartPad share: https://github.com/dart-lang/dart-pad/wiki/Sharing-Guide see this example and edit it here """
+//                text: """My website url: https://blasanka.github.io/ Google sam@mail.com search medium.com/@samuelezedi using: www.google.com, social gdk@gmail.com media is facebook.com, http://example.com/method?param=flutter stackoverflow.com is my greatest website. DartPad share: https://github.com/dart-lang/dart-pad/wiki/Sharing-Guide see this example and edit it here """,
+              ),
               Container(
                 margin: EdgeInsets.all(20),
                 child: TextFormField(

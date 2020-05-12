@@ -53,7 +53,7 @@ locally.showDailyAtTime(title: title.text, message: message.text, time: Time.hou
 ```
 
 ### Show a weekly notification on specific day and time
-```
+```dart
 locally.showWeeklyAtDayAndTime(title: title.text, message: message.text, time: Time.minute, day: Days.monday);
 ```
 
