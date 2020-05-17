@@ -1,6 +1,6 @@
 name: locally
 description: This package helps developers create local notification in flutter, it extends the flutter local notification package and tries to make usage more simple and user friendly.
-version: 0.2.6+6
+version: 0.2.6+7
 authors:
   - samuelezedi@gmail.com
 homepage: https://github.com/samuelezedi/locally

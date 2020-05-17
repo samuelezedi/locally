@@ -1,3 +1,7 @@
+## 0.2.6+7
+
+* Fixed this issue on github https://github.com/samuelezedi/locally/issues/1
+
 ## 0.2.6+6
 
 * Created helper file with helper classes in it
