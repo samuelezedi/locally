@@ -17,39 +17,8 @@ class Repeat {
 
   final int value;
 }
+//
 
-class Priority {
-  const Priority(this.value);
-
-  static const Min = Priority(-2);
-  static const Low = Priority(-1);
-  static const Default = Priority(0);
-  static const High = Priority(1);
-  static const Max = Priority(2);
-
-  /// All the possible values for the [Priority] enumeration.
-  static List<Priority> get values => [Min, Low, Default, High, Max];
-
-  final int value;
-}
-
-class Importance {
-  const Importance(this.value);
-
-  static const Unspecified = Importance(-1000);
-  static const None = Importance(0);
-  static const Min = Importance(1);
-  static const Low = Importance(2);
-  static const Default = Importance(3);
-  static const High = Importance(4);
-  static const Max = Importance(5);
-
-  /// All the possible values for the [Importance] enumeration.
-  static List<Importance> get values =>
-      [Unspecified, None, Min, Low, Default, High, Max];
-
-  final int value;
-}
 
 class Time {
   const Time(this.value);
