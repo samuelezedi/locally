@@ -1,3 +1,7 @@
+## 0.2.6+9
+
+* Added new co-author kmicatocorp@gmail.com
+
 ## 0.2.6+8
 
 * Fixed this issue on github https://github.com/samuelezedi/locally/issues/1
