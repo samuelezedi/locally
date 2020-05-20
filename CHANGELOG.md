@@ -1,4 +1,4 @@
-## 0.2.6+7
+## 0.2.6+8
 
 * Fixed this issue on github https://github.com/samuelezedi/locally/issues/1
 
