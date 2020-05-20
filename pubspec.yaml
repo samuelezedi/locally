@@ -3,7 +3,7 @@ description: This package helps developers create local notification in flutter,
 version: 0.2.6+9
 authors:
   - samuelezedi@gmail.com
-  - kmicatocorp@gmail.com
+  - micatovin@gmail.com
 homepage: https://github.com/samuelezedi/locally
 
 environment:
