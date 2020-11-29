@@ -42,6 +42,9 @@ class Locally {
   /// id of each notification, add if you want multiple notifications.
   int id;
 
+  /// function called when notification is clicked
+  Future Function(String) onSelectNotification;
+
   /// IOS Parameters, this is currently not in use but will be implemented in future releases
   bool iosRequestSoundPermission;
   bool iosRequestBadgePermission;
@@ -67,7 +70,7 @@ class Locally {
     @required this.context,
     @required this.pageRoute,
     @required this.appIcon,
-    @required this.payload,
+    @required this.onSelectNotification,
     this.iosRequestSoundPermission = false,
     this.iosRequestBadgePermission = false,
     this.iosRequestAlertPermission = false,
@@ -112,12 +115,12 @@ class Locally {
   /// onSelectNotification
   /// Obtains a string payload
   /// And perform navigation function
-  Future<void> onSelectNotification(String payload) async {
-    if (payload != null) {
-      debugPrint('notification payload: ' + payload);
-    }
-    await Navigator.push(context, pageRoute);
-  }
+  // Future<void> onSelectNotification(String payload) async {
+  //   if (payload != null) {
+  //     debugPrint('notification payload: ' + payload);
+  //   }
+  //   await Navigator.push(context, pageRoute);
+  // }
 
   /// onDidReceiveNotification
   /// it required for IOS initialization
@@ -230,7 +233,7 @@ class Locally {
       @required message,
       channelName = 'channel Name',
       channelID = 'channelID',
-      id =0,
+      id = 0,
       channelDescription = 'channel Description',
       importance = Importance.High,
       priority = Priority.High,
