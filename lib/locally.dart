@@ -67,7 +67,6 @@ class Locally {
     @required this.context,
     @required this.pageRoute,
     @required this.appIcon,
-    @required this.payload,
     this.iosRequestSoundPermission = false,
     this.iosRequestBadgePermission = false,
     this.iosRequestAlertPermission = false,
