@@ -10,7 +10,6 @@
 
 library locally;
 
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -40,6 +39,9 @@ class Locally {
   /// A context is also required
   BuildContext context;
 
+  /// id of each notification, add if you want multiple notifications.
+  int id;
+
   /// IOS Parameters, this is currently not in use but will be implemented in future releases
   bool iosRequestSoundPermission;
   bool iosRequestBadgePermission;
@@ -50,7 +52,7 @@ class Locally {
   /// initializationSettingIos;
   /// initializationSetting;
   FlutterLocalNotificationsPlugin localNotificationsPlugin =
-  FlutterLocalNotificationsPlugin();
+      FlutterLocalNotificationsPlugin();
   var initializationSettingAndroid;
   var initializationSettingIos;
   var initializationSetting;
@@ -73,7 +75,7 @@ class Locally {
     /// initializationSettingAndroid declared above is assigned
     /// to AndroidInitializationSettings.
     initializationSettingAndroid =
-    new AndroidInitializationSettings(this.appIcon);
+        new AndroidInitializationSettings(this.appIcon);
 
     /// initializationSettingIos declared above is assigned
     /// to IOSInitializationSettings.
@@ -99,12 +101,12 @@ class Locally {
   Future requestPermission() async {
     return await localNotificationsPlugin
         .resolvePlatformSpecificImplementation<
-        IOSFlutterLocalNotificationsPlugin>()
+            IOSFlutterLocalNotificationsPlugin>()
         ?.requestPermissions(
-      alert: true,
-      badge: true,
-      sound: true,
-    );
+          alert: true,
+          badge: true,
+          sound: true,
+        );
   }
 
   /// onSelectNotification
@@ -148,13 +150,14 @@ class Locally {
   /// ticker
   Future show(
       {@required title,
-        @required message,
-        channelName = 'channel Name',
-        channelID = 'channelID',
-        channelDescription = 'channel Description',
-        importance = Importance.High,
-        priority = Priority.High,
-        ticker = 'test ticker'}) async {
+      @required message,
+      channelName = 'channel Name',
+      channelID = 'channelID',
+      id = 0,
+      channelDescription = 'channel Description',
+      importance = Importance.High,
+      priority = Priority.High,
+      ticker = 'test ticker'}) async {
     if (title == null && message == null) {
       throw "Missing parameters, title: message";
     } else {
@@ -171,7 +174,7 @@ class Locally {
           androidPlatformChannelSpecifics, iosPlatformChannelSpecifics);
 
       await localNotificationsPlugin
-          .show(0, title, message, platformChannelSpecifics, payload: payload);
+          .show(id, title, message, platformChannelSpecifics, payload: payload);
     }
   }
 
@@ -187,15 +190,16 @@ class Locally {
   /// and a Duration class
   Future schedule(
       {@required title,
-        @required message,
-        channelName = 'channel Name',
-        channelID = 'channelID',
-        channelDescription = 'channel Description',
-        importance = Importance.High,
-        priority = Priority.High,
-        ticker = 'test ticker',
-        @required Duration duration,
-        androidAllowWhileIdle = false}) async {
+      @required message,
+      channelName = 'channel Name',
+      channelID = 'channelID',
+      id = 0,
+      channelDescription = 'channel Description',
+      importance = Importance.High,
+      priority = Priority.High,
+      ticker = 'test ticker',
+      @required Duration duration,
+      androidAllowWhileIdle = false}) async {
     if (title == null && message == null && duration == null) {
       throw "Missing parameters, title: message: duration";
     } else {
@@ -206,7 +210,7 @@ class Locally {
       var iOSPlatformChannelSpecifics = IOSNotificationDetails();
       NotificationDetails platformChannelSpecifics = NotificationDetails(
           androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
-      await localNotificationsPlugin.schedule(0, title, message,
+      await localNotificationsPlugin.schedule(id, title, message,
           scheduledNotificationDateTime, platformChannelSpecifics);
     }
   }
@@ -223,14 +227,15 @@ class Locally {
   /// and a repeat interval
   Future showPeriodically(
       {@required title,
-        @required message,
-        channelName = 'channel Name',
-        channelID = 'channelID',
-        channelDescription = 'channel Description',
-        importance = Importance.High,
-        priority = Priority.High,
-        @required var repeatInterval,
-        ticker = 'test ticker'}) async {
+      @required message,
+      channelName = 'channel Name',
+      channelID = 'channelID',
+      id =0,
+      channelDescription = 'channel Description',
+      importance = Importance.High,
+      priority = Priority.High,
+      @required var repeatInterval,
+      ticker = 'test ticker'}) async {
     if (title == null && message == null && repeatInterval == null) {
       throw "Missing parameters, title: message, repeat interval";
     } else {
@@ -240,7 +245,7 @@ class Locally {
       var platformChannelSpecifics = NotificationDetails(
           androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
       await localNotificationsPlugin.periodicallyShow(
-          0, title, message, repeatInterval, platformChannelSpecifics);
+          id, title, message, repeatInterval, platformChannelSpecifics);
     }
   }
 
@@ -256,15 +261,16 @@ class Locally {
   /// and a time
   Future showDailyAtTime(
       {@required title,
-        @required message,
-        channelName = 'channel Name',
-        channelID = 'channelID',
-        channelDescription = 'channel Description',
-        importance = Importance.High,
-        priority = Priority.High,
-        ticker = 'test ticker',
-        @required time,
-        bool suffixTime = false}) async {
+      @required message,
+      channelName = 'channel Name',
+      channelID = 'channelID',
+      id = 0,
+      channelDescription = 'channel Description',
+      importance = Importance.High,
+      priority = Priority.High,
+      ticker = 'test ticker',
+      @required time,
+      bool suffixTime = false}) async {
     if (title == null && message == null) {
       throw "Missing parameters, title: message";
     } else {
@@ -275,7 +281,7 @@ class Locally {
           androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
       if (suffixTime) {
         await localNotificationsPlugin.showDailyAtTime(
-            0,
+            id,
             title,
             message +
                 "${time.hour.toString()}:${time.minute.toString()}:${time.second.toString()}",
@@ -302,16 +308,17 @@ class Locally {
   /// and Day
   Future showWeeklyAtDayAndTime(
       {@required title,
-        @required message,
-        channelName = 'channel Name',
-        channelID = 'channelID',
-        channelDescription = 'channel Description',
-        Importance importance = Importance.High,
-        Priority priority = Priority.High,
-        ticker = 'test ticker',
-        @required time,
-        @required day,
-        bool suffixTime = false}) async {
+      @required message,
+      channelName = 'channel Name',
+      channelID = 'channelID',
+      id = 0,
+      channelDescription = 'channel Description',
+      Importance importance = Importance.High,
+      Priority priority = Priority.High,
+      ticker = 'test ticker',
+      @required time,
+      @required day,
+      bool suffixTime = false}) async {
     if (title == null && message == null && time == null && day == null) {
       throw "Missing parameters, title: message : time";
     } else {
@@ -322,7 +329,7 @@ class Locally {
           androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
       if (suffixTime) {
         await localNotificationsPlugin.showDailyAtTime(
-            0,
+            id,
             title,
             message +
                 "${time.hour.toString()}:${time.minute.toString()}:${time.second.toString()}",
