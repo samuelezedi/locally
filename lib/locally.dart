@@ -42,6 +42,9 @@ class Locally {
   /// id of each notification, add if you want multiple notifications.
   int id;
 
+  /// called when notificatio is clicked.
+  Function(String payload) onSelectNotification;
+
   /// IOS Parameters, this is currently not in use but will be implemented in future releases
   bool iosRequestSoundPermission;
   bool iosRequestBadgePermission;
@@ -111,12 +114,12 @@ class Locally {
   /// onSelectNotification
   /// Obtains a string payload
   /// And perform navigation function
-  Future<void> onSelectNotification(String payload) async {
-    if (payload != null) {
-      debugPrint('notification payload: ' + payload);
-    }
-    await Navigator.push(context, pageRoute);
-  }
+  // Future<void> onSelectNotification(String payload) async {
+  //   if (payload != null) {
+  //     debugPrint('notification payload: ' + payload);
+  //   }
+  //   await Navigator.push(context, pageRoute);
+  // }
 
   /// onDidReceiveNotification
   /// it required for IOS initialization
@@ -153,6 +156,7 @@ class Locally {
       channelName = 'channel Name',
       channelID = 'channelID',
       id = 0,
+      onSelectNotification,
       payload,
       channelDescription = 'channel Description',
       importance = Importance.High,
@@ -195,6 +199,7 @@ class Locally {
       channelID = 'channelID',
       id = 0,
       payload,
+      onSelectNotification,
       channelDescription = 'channel Description',
       importance = Importance.High,
       priority = Priority.High,
@@ -212,7 +217,8 @@ class Locally {
       NotificationDetails platformChannelSpecifics = NotificationDetails(
           androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
       await localNotificationsPlugin.schedule(id, title, message,
-          scheduledNotificationDateTime, platformChannelSpecifics, payload: payload);
+          scheduledNotificationDateTime, platformChannelSpecifics,
+          payload: payload);
     }
   }
 
@@ -231,8 +237,9 @@ class Locally {
       @required message,
       channelName = 'channel Name',
       channelID = 'channelID',
-      id =0,
+      id = 0,
       payload,
+      onSelectNotification,
       channelDescription = 'channel Description',
       importance = Importance.High,
       priority = Priority.High,
@@ -247,7 +254,8 @@ class Locally {
       var platformChannelSpecifics = NotificationDetails(
           androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
       await localNotificationsPlugin.periodicallyShow(
-          id, title, message, repeatInterval, platformChannelSpecifics, payload: payload);
+          id, title, message, repeatInterval, platformChannelSpecifics,
+          payload: payload);
     }
   }
 
@@ -268,6 +276,7 @@ class Locally {
       channelID = 'channelID',
       id = 0,
       payload,
+      onSelectNotification,
       channelDescription = 'channel Description',
       importance = Importance.High,
       priority = Priority.High,
@@ -281,7 +290,9 @@ class Locally {
           channelID, channelName, channelDescription);
       var iOSPlatformChannelSpecifics = IOSNotificationDetails();
       var platformChannelSpecifics = NotificationDetails(
-          androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics,);
+        androidPlatformChannelSpecifics,
+        iOSPlatformChannelSpecifics,
+      );
       if (suffixTime) {
         await localNotificationsPlugin.showDailyAtTime(
             id,
@@ -289,10 +300,12 @@ class Locally {
             message +
                 "${time.hour.toString()}:${time.minute.toString()}:${time.second.toString()}",
             time,
-            platformChannelSpecifics, payload: payload);
+            platformChannelSpecifics,
+            payload: payload);
       } else {
         await localNotificationsPlugin.showDailyAtTime(
-            0, title, message, time, platformChannelSpecifics, payload: payload);
+            0, title, message, time, platformChannelSpecifics,
+            payload: payload);
       }
     }
   }
@@ -316,6 +329,7 @@ class Locally {
       channelID = 'channelID',
       id = 0,
       payload,
+      onSelectNotification,
       channelDescription = 'channel Description',
       Importance importance = Importance.High,
       Priority priority = Priority.High,
@@ -338,10 +352,12 @@ class Locally {
             message +
                 "${time.hour.toString()}:${time.minute.toString()}:${time.second.toString()}",
             time,
-            platformChannelSpecifics, payload: payload);
+            platformChannelSpecifics,
+            payload: payload);
       } else {
         await localNotificationsPlugin.showWeeklyAtDayAndTime(
-            0, title, message, day, time, platformChannelSpecifics, payload: payload);
+            0, title, message, day, time, platformChannelSpecifics,
+            payload: payload);
       }
     }
   }
