@@ -154,6 +154,7 @@ class Locally {
       channelName = 'channel Name',
       channelID = 'channelID',
       id = 0,
+      payload,
       channelDescription = 'channel Description',
       importance = Importance.High,
       priority = Priority.High,
@@ -194,6 +195,7 @@ class Locally {
       channelName = 'channel Name',
       channelID = 'channelID',
       id = 0,
+      payload,
       channelDescription = 'channel Description',
       importance = Importance.High,
       priority = Priority.High,
@@ -211,7 +213,7 @@ class Locally {
       NotificationDetails platformChannelSpecifics = NotificationDetails(
           androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
       await localNotificationsPlugin.schedule(id, title, message,
-          scheduledNotificationDateTime, platformChannelSpecifics);
+          scheduledNotificationDateTime, platformChannelSpecifics, payload: payload);
     }
   }
 
@@ -231,6 +233,7 @@ class Locally {
       channelName = 'channel Name',
       channelID = 'channelID',
       id =0,
+      payload,
       channelDescription = 'channel Description',
       importance = Importance.High,
       priority = Priority.High,
@@ -245,7 +248,7 @@ class Locally {
       var platformChannelSpecifics = NotificationDetails(
           androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
       await localNotificationsPlugin.periodicallyShow(
-          id, title, message, repeatInterval, platformChannelSpecifics);
+          id, title, message, repeatInterval, platformChannelSpecifics, payload: payload);
     }
   }
 
@@ -265,6 +268,7 @@ class Locally {
       channelName = 'channel Name',
       channelID = 'channelID',
       id = 0,
+      payload,
       channelDescription = 'channel Description',
       importance = Importance.High,
       priority = Priority.High,
@@ -278,7 +282,7 @@ class Locally {
           channelID, channelName, channelDescription);
       var iOSPlatformChannelSpecifics = IOSNotificationDetails();
       var platformChannelSpecifics = NotificationDetails(
-          androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+          androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics,);
       if (suffixTime) {
         await localNotificationsPlugin.showDailyAtTime(
             id,
@@ -286,7 +290,7 @@ class Locally {
             message +
                 "${time.hour.toString()}:${time.minute.toString()}:${time.second.toString()}",
             time,
-            platformChannelSpecifics);
+            platformChannelSpecifics, payload: payload);
       } else {
         await localNotificationsPlugin.showDailyAtTime(
             0, title, message, time, platformChannelSpecifics);
@@ -334,10 +338,10 @@ class Locally {
             message +
                 "${time.hour.toString()}:${time.minute.toString()}:${time.second.toString()}",
             time,
-            platformChannelSpecifics);
+            platformChannelSpecifics, payload: payload);
       } else {
         await localNotificationsPlugin.showWeeklyAtDayAndTime(
-            0, title, message, day, time, platformChannelSpecifics);
+            0, title, message, day, time, platformChannelSpecifics, payload: payload);
       }
     }
   }
