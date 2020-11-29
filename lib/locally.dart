@@ -293,7 +293,7 @@ class Locally {
             platformChannelSpecifics, payload: payload);
       } else {
         await localNotificationsPlugin.showDailyAtTime(
-            0, title, message, time, platformChannelSpecifics);
+            0, title, message, time, platformChannelSpecifics, payload: payload);
       }
     }
   }
@@ -316,6 +316,7 @@ class Locally {
       channelName = 'channel Name',
       channelID = 'channelID',
       id = 0,
+      payload,
       channelDescription = 'channel Description',
       Importance importance = Importance.High,
       Priority priority = Priority.High,
