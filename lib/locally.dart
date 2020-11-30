@@ -33,17 +33,17 @@ class Locally {
   /// App Icon which is required on initialization
   String appIcon;
 
-  /// Page Route which is also required on Initialization
-  MaterialPageRoute pageRoute;
-
-  /// A context is also required
-  BuildContext context;
-
   /// id of each notification, add if you want multiple notifications.
   int id;
 
-  /// called when notificatio is clicked.
+  /// called when notification is clicked.
   Function(String payload) onSelectNotification;
+
+  /// Callback for handling when a notification is triggered while the app is in the foreground
+  /// this property is only applicable to iOS versions and older than 10
+  /// mostly awaits a Dialog
+  Future<dynamic> Function(int, String, String, String)
+      onDidReceiveNotification;
 
   /// IOS Parameters, this is currently not in use but will be implemented in future releases
   bool iosRequestSoundPermission;
@@ -67,10 +67,9 @@ class Locally {
   /// localNotification settings is initialized with Flutter Local Notification
   /// Setting declared above
   Locally({
-    @required this.context,
-    @required this.pageRoute,
     @required this.appIcon,
     @required this.onSelectNotification,
+    @required this.onDidReceiveNotification,
     this.iosRequestSoundPermission = false,
     this.iosRequestBadgePermission = false,
     this.iosRequestAlertPermission = false,
@@ -125,23 +124,23 @@ class Locally {
   /// onDidReceiveNotification
   /// it required for IOS initialization
   /// it takes in id, title, body and payload
-  Future<void> onDidReceiveNotification(id, title, body, payload) async {
-    await showDialog(
-        context: context,
-        child: CupertinoAlertDialog(
-          title: title,
-          content: Text(body),
-          actions: <Widget>[
-            CupertinoDialogAction(
-              isDefaultAction: true,
-              child: Text('Ok'),
-              onPressed: () async {
-                await Navigator.push(context, pageRoute);
-              },
-            )
-          ],
-        ));
-  }
+  // Future<void> onDidReceiveNotification(id, title, body, payload) async {
+  //   await showDialog(
+  //       context: context,
+  //       child: CupertinoAlertDialog(
+  //         title: title,
+  //         content: Text(body),
+  //         actions: <Widget>[
+  //           CupertinoDialogAction(
+  //             isDefaultAction: true,
+  //             child: Text('Ok'),
+  //             onPressed: () async {
+  //               await Navigator.push(context, pageRoute);
+  //             },
+  //           )
+  //         ],
+  //       ));
+  // }
 
   /// The show Method return a notification to the screen
   /// it takes in a required title, message
