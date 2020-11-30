@@ -37,12 +37,13 @@ class Locally {
   int id;
 
   /// called when notification is clicked.
+  /// recieves a payload from show method
   Function(String payload) onSelectNotification;
 
   /// Callback for handling when a notification is triggered while the app is in the foreground
   /// this property is only applicable to iOS versions and older than 10
   /// mostly awaits a Dialog
-  Future<dynamic> Function(int id, String title, String body, String payload)
+  Future<dynamic> Function({int id, String title, String body, String payload})
       onDidReceiveNotification;
 
   /// IOS Parameters, this is currently not in use but will be implemented in future releases
