@@ -1,6 +1,6 @@
 # Locally
 
-[![pub package](https://img.shields.io/badge/pub-0.2.6%2B-8brightgreen)](https://pub.dev/packages/locally)
+[![pub package](https://img.shields.io/badge/pub-1.0.5brightgreen)](https://pub.dev/packages/locally)
 
 ## flutter local notification
 

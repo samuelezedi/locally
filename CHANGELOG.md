@@ -1,3 +1,7 @@
+## 1.0.5
+
+* Migrated to null safety by dchiaha@gmail.com
+
 ## 0.2.6+9
 
 * Added new co-author kmicatocorp@gmail.com
