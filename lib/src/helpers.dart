@@ -3,13 +3,13 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 class Repeat {
   const Repeat(this.value);
 
-  static const RepeatInterval Hourly = RepeatInterval.Hourly;
+  static const RepeatInterval Hourly = RepeatInterval.hourly;
 
-  static const RepeatInterval EveryMinute = RepeatInterval.EveryMinute;
+  static const RepeatInterval EveryMinute = RepeatInterval.everyMinute;
 
-  static const RepeatInterval Daily = RepeatInterval.Daily;
+  static const RepeatInterval Daily = RepeatInterval.daily;
 
-  static const RepeatInterval Weekly = RepeatInterval.Weekly;
+  static const RepeatInterval Weekly = RepeatInterval.weekly;
 
   /// All the possible values for the [RepeatInterval] enumeration.
   static List<RepeatInterval> get values =>
@@ -33,13 +33,13 @@ class Time {
 class Days {
   const Days(this.value);
 
-  static var monday = Day.Monday;
-  static var tuesday = Day.Tuesday;
-  static var wednesday = Day.Wednesday;
-  static var thursday = Day.Thursday;
-  static var friday = Day.Friday;
-  static var saturday = Day.Saturday;
-  static var sunday = Day.Sunday;
+  static var monday = Day.monday;
+  static var tuesday = Day.tuesday;
+  static var wednesday = Day.wednesday;
+  static var thursday = Day.thursday;
+  static var friday = Day.friday;
+  static var saturday = Day.saturday;
+  static var sunday = Day.sunday;
 
   final int value;
 }
