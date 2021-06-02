@@ -12,9 +12,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
-  flutter_local_notifications: ^5.0.0+1
-dependency_overrides:
+  
+  timezone: ^0.7.0
+  flutter_native_timezone: ^1.1.0
+  flutter_local_notifications: ^6.0.0
 
 dev_dependencies:
   flutter_test:
