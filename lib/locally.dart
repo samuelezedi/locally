@@ -10,12 +10,18 @@
 
 library locally;
 
+import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 /// Imports flutter_local_notification, our dependency package
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+
+/// Imports timezone, our dependency package
+import 'package:flutter_native_timezone/flutter_native_timezone.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 
 /// Locally class created
 class Locally {
@@ -50,10 +56,12 @@ class Locally {
   /// initializationSettingIos;
   /// initializationSetting;
   FlutterLocalNotificationsPlugin localNotificationsPlugin =
-  FlutterLocalNotificationsPlugin();
+      FlutterLocalNotificationsPlugin();
   var initializationSettingAndroid;
   var initializationSettingIos;
   var initializationSetting;
+
+  Random random = new Random();
 
   /// Then we create a construct of Locally
   /// which required a context, pageRoute, appIcon and a payload
@@ -73,7 +81,7 @@ class Locally {
     /// initializationSettingAndroid declared above is assigned
     /// to AndroidInitializationSettings.
     initializationSettingAndroid =
-    new AndroidInitializationSettings(this.appIcon);
+        new AndroidInitializationSettings(this.appIcon);
 
     /// initializationSettingIos declared above is assigned
     /// to IOSInitializationSettings.
@@ -94,17 +102,80 @@ class Locally {
         onSelectNotification: onSelectNotification);
   }
 
+  Future<void> setup() async {
+    tz.initializeTimeZones();
+    final String currentTimeZone =
+        await FlutterNativeTimezone.getLocalTimezone();
+    tz.setLocalLocation(
+      tz.getLocation(currentTimeZone),
+    );
+  }
+
+  ///The instance of Weekday
+  // // // tz.TZDateTime _nextInstanceOfWeekday(int hour, int min, int dayOfWeek) {
+  // // //   tz.TZDateTime scheduledDate = _nextInstanceOfTime(hour, min);
+  // // //   switch (dayOfWeek) {
+  // // //     case 1:
+  // // //       while (scheduledDate.weekday != DateTime.monday) {
+  // // //         scheduledDate = scheduledDate.add(const Duration(days: 1));
+  // // //       }
+  // // //       break;
+  // // //     case 2:
+  // // //       while (scheduledDate.weekday != DateTime.tuesday) {
+  // // //         scheduledDate = scheduledDate.add(const Duration(days: 1));
+  // // //       }
+  // // //       break;
+  // // //     case 3:
+  // // //       while (scheduledDate.weekday != DateTime.wednesday) {
+  // // //         scheduledDate = scheduledDate.add(const Duration(days: 1));
+  // // //       }
+  // // //       break;
+  // // //     case 4:
+  // // //       while (scheduledDate.weekday != DateTime.thursday) {
+  // // //         scheduledDate = scheduledDate.add(const Duration(days: 1));
+  // // //       }
+  // // //       break;
+  // // //     case 5:
+  // // //       while (scheduledDate.weekday != DateTime.friday) {
+  // // //         scheduledDate = scheduledDate.add(const Duration(days: 1));
+  // // //       }
+  // // //       break;
+  // // //     case 6:
+  // // //       while (scheduledDate.weekday != DateTime.saturday) {
+  // // //         scheduledDate = scheduledDate.add(const Duration(days: 1));
+  // // //       }
+  // // //       break;
+  // // //     case 7:
+  // // //       while (scheduledDate.weekday != DateTime.sunday) {
+  // // //         scheduledDate = scheduledDate.add(const Duration(days: 1));
+  // // //       }
+  // // //       break;
+  // // //   }
+  // // //   return scheduledDate;
+  // // // }
+
+  /// The instance of time
+  // // // tz.TZDateTime _nextInstanceOfTime(int hour, int min) {
+  // // //   final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
+  // // //   tz.TZDateTime scheduledDate =
+  // // //       tz.TZDateTime(tz.local, now.year, now.month, now.day, hour, min);
+  // // //   if (scheduledDate.isBefore(now)) {
+  // // //     scheduledDate = scheduledDate.add(const Duration(days: 1));
+  // // //   }
+  // // //   return scheduledDate;
+  // // // }
+
   /// requestPermission()
   /// for IOS developers only
   Future requestPermission() async {
     return await localNotificationsPlugin
         .resolvePlatformSpecificImplementation<
-        IOSFlutterLocalNotificationsPlugin>()
+            IOSFlutterLocalNotificationsPlugin>()
         ?.requestPermissions(
-      alert: true,
-      badge: true,
-      sound: true,
-    );
+          alert: true,
+          badge: true,
+          sound: true,
+        );
   }
 
   /// onSelectNotification
@@ -122,20 +193,21 @@ class Locally {
   /// it takes in id, title, body and payload
   Future<void> onDidReceiveNotification(id, title, body, payload) async {
     await showDialog(
-        context: context,
-        builder:(_)=> CupertinoAlertDialog(
-          title: title,
-          content: Text(body),
-          actions: <Widget>[
-            CupertinoDialogAction(
-              isDefaultAction: true,
-              child: Text('Ok'),
-              onPressed: () async {
-                await Navigator.push(context, pageRoute);
-              },
-            )
-          ],
-        ));
+      context: context,
+      builder: (_) => CupertinoAlertDialog(
+        title: title,
+        content: Text(body),
+        actions: <Widget>[
+          CupertinoDialogAction(
+            isDefaultAction: true,
+            child: Text('Ok'),
+            onPressed: () async {
+              await Navigator.push(context, pageRoute);
+            },
+          )
+        ],
+      ),
+    );
   }
 
   /// The show Method return a notification to the screen
@@ -148,13 +220,13 @@ class Locally {
   /// ticker
   Future show(
       {required title,
-        required message,
-        channelName = 'channel Name',
-        channelID = 'channelID',
-        channelDescription = 'channel Description',
-        importance = Importance.high,
-        priority = Priority.high,
-        ticker = 'test ticker'}) async {
+      required message,
+      channelName = 'channel name',
+      channelID = 'channel id',
+      channelDescription = 'channel description',
+      importance = Importance.high,
+      priority = Priority.high,
+      ticker = 'test ticker'}) async {
     if (title == null && message == null) {
       throw "Missing parameters, title: message";
     } else {
@@ -162,16 +234,28 @@ class Locally {
       this.message = message;
 
       var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-          channelID, channelName, channelDescription,
-          importance: importance, priority: priority, ticker: ticker);
+        channelID,
+        channelName,
+        channelDescription,
+        importance: importance,
+        priority: priority,
+        ticker: ticker,
+      );
 
       var iosPlatformChannelSpecifics = IOSNotificationDetails();
 
       var platformChannelSpecifics = NotificationDetails(
-          android : androidPlatformChannelSpecifics, iOS: iosPlatformChannelSpecifics);
+        android: androidPlatformChannelSpecifics,
+        iOS: iosPlatformChannelSpecifics,
+      );
 
-      await localNotificationsPlugin
-          .show(0, title, message, platformChannelSpecifics, payload: payload);
+      await localNotificationsPlugin.show(
+        0 + random.nextInt(9 - 0),
+        title,
+        message,
+        platformChannelSpecifics,
+        payload: payload,
+      );
     }
   }
 
@@ -185,31 +269,50 @@ class Locally {
   /// priority
   /// ticker
   /// and a Duration class
-  Future schedule(
-      {required title,
-        required message,
-        channelName = 'channel Name',
-        channelID = 'channelID',
-        channelDescription = 'channel Description',
-        importance = Importance.high,
-        priority = Priority.high,
-        ticker = 'test ticker',
-        required Duration duration,
-        androidAllowWhileIdle = false}) async {
-    if (title == null && message == null && duration == null) {
-      throw "Missing parameters, title: message: duration";
-    } else {
-      var scheduledNotificationDateTime = DateTime.now().add(duration);
-
-      var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-          channelID, channelName, channelDescription);
-      var iOSPlatformChannelSpecifics = IOSNotificationDetails();
-      NotificationDetails platformChannelSpecifics = NotificationDetails(
-          android: androidPlatformChannelSpecifics, iOS: iOSPlatformChannelSpecifics);
-      await localNotificationsPlugin.schedule(0, title, message,
-          scheduledNotificationDateTime, platformChannelSpecifics);
-    }
-  }
+  // // // Future schedule({
+  // // //   required title,
+  // // //   required message,
+  // // //   channelName = 'schedule channel name',
+  // // //   channelID = 'schedule channel id',
+  // // //   channelDescription = 'schedule channel description',
+  // // //   importance = Importance.high,
+  // // //   priority = Priority.high,
+  // // //   ticker = 'test ticker',
+  // // //   required int hour,
+  // // //   required int min,
+  // // //   required int dayOfWeek,
+  // // //   androidAllowWhileIdle = false,
+  // // // }) async {
+  // // //   if (title == null &&
+  // // //       message == null &&
+  // // //       // ignore: unnecessary_null_comparison
+  // // //       hour == null &&
+  // // //       // ignore: unnecessary_null_comparison
+  // // //       min == null &&
+  // // //       // ignore: unnecessary_null_comparison
+  // // //       dayOfWeek == null) {
+  // // //     throw "Missing parameters, title: message: duration";
+  // // //   } else {
+  // // //     setup();
+  // // //     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+  // // //         channelID, channelName, channelDescription);
+  // // //     var iOSPlatformChannelSpecifics = IOSNotificationDetails();
+  // // //     NotificationDetails platformChannelSpecifics = NotificationDetails(
+  // // //         android: androidPlatformChannelSpecifics,
+  // // //         iOS: iOSPlatformChannelSpecifics);
+  // // //     await localNotificationsPlugin.zonedSchedule(
+  // // //       10 + random.nextInt(19 - 10),
+  // // //       title,
+  // // //       message,
+  // // //       _nextInstanceOfWeekday(hour, min, dayOfWeek),
+  // // //       platformChannelSpecifics,
+  // // //       uiLocalNotificationDateInterpretation:
+  // // //           UILocalNotificationDateInterpretation.absoluteTime,
+  // // //       androidAllowWhileIdle: true,
+  // // //       matchDateTimeComponents: DateTimeComponents.time,
+  // // //     );
+  // // //   }
+  // // // }
 
   /// The showPeriodicallyd return  a notification to the screen
   /// But with this you can repeat a message to show at a given interval
@@ -223,24 +326,28 @@ class Locally {
   /// and a repeat interval
   Future showPeriodically(
       {required title,
-        required message,
-        channelName = 'channel Name',
-        channelID = 'channelID',
-        channelDescription = 'channel Description',
-        importance = Importance.high,
-        priority = Priority.high,
-        required var repeatInterval,
-        ticker = 'test ticker'}) async {
-    if (title == null && message == null && repeatInterval == null) {
+      required message,
+      channelName = 'periodically channel name',
+      channelID = 'periodically channel id',
+      channelDescription = 'periodically channel description',
+      importance = Importance.high,
+      priority = Priority.high,
+      ticker = 'test ticker'}) async {
+    if (title == null && message == null) {
       throw "Missing parameters, title: message, repeat interval";
     } else {
       var androidPlatformChannelSpecifics = AndroidNotificationDetails(
           channelID, channelName, channelDescription);
       var iOSPlatformChannelSpecifics = IOSNotificationDetails();
       var platformChannelSpecifics = NotificationDetails(
-          android : androidPlatformChannelSpecifics, iOS: iOSPlatformChannelSpecifics);
+          android: androidPlatformChannelSpecifics,
+          iOS: iOSPlatformChannelSpecifics);
       await localNotificationsPlugin.periodicallyShow(
-          0, title, message, repeatInterval, platformChannelSpecifics);
+          20 + random.nextInt(29 - 20),
+          title,
+          message,
+          RepeatInterval.everyMinute,
+          platformChannelSpecifics);
     }
   }
 
@@ -256,15 +363,14 @@ class Locally {
   /// and a time
   Future showDailyAtTime(
       {required title,
-        required message,
-        channelName = 'channel Name',
-        channelID = 'channelID',
-        channelDescription = 'channel Description',
-        importance = Importance.high,
-        priority = Priority.high,
-        ticker = 'test ticker',
-        required time,
-        bool suffixTime = false}) async {
+      required message,
+      channelName = 'daily_at_time channel Name',
+      channelID = 'daily_at_time channel id',
+      channelDescription = 'daily_at_time channel description',
+      importance = Importance.high,
+      priority = Priority.high,
+      ticker = 'test ticker',
+      bool suffixTime = false}) async {
     if (title == null && message == null) {
       throw "Missing parameters, title: message";
     } else {
@@ -272,18 +378,26 @@ class Locally {
           channelID, channelName, channelDescription);
       var iOSPlatformChannelSpecifics = IOSNotificationDetails();
       var platformChannelSpecifics = NotificationDetails(
-          android: androidPlatformChannelSpecifics, iOS: iOSPlatformChannelSpecifics);
+          android: androidPlatformChannelSpecifics,
+          iOS: iOSPlatformChannelSpecifics);
+      var time = DateTime.now();
       if (suffixTime) {
-        await localNotificationsPlugin.showDailyAtTime(
-            0,
-            title,
-            message +
-                "${time.hour.toString()}:${time.minute.toString()}:${time.second.toString()}",
-            time,
-            platformChannelSpecifics);
+        await localNotificationsPlugin.periodicallyShow(
+          30 + random.nextInt(39 - 30),
+          title,
+          message +
+              "${time.hour.toString()}:${time.minute.toString()}:${time.second.toString()}",
+          RepeatInterval.daily,
+          platformChannelSpecifics,
+        );
       } else {
-        await localNotificationsPlugin.showDailyAtTime(
-            0, title, message, time, platformChannelSpecifics);
+        await localNotificationsPlugin.periodicallyShow(
+          30 + random.nextInt(39 - 30),
+          title,
+          message,
+          RepeatInterval.daily,
+          platformChannelSpecifics,
+        );
       }
     }
   }
@@ -298,20 +412,20 @@ class Locally {
   /// importance,
   /// priority
   /// ticker
-  /// and a time
+  /// and a timeDateTime.now()
   /// and Day
   Future showWeeklyAtDayAndTime(
       {required title,
-        required message,
-        channelName = 'channel Name',
-        channelID = 'channelID',
-        channelDescription = 'channel Description',
-        Importance importance = Importance.high,
-        Priority priority = Priority.high,
-        ticker = 'test ticker',
-        @required time,
-        @required day,
-        bool suffixTime = false}) async {
+      required message,
+      channelName = 'daily_at_time channel Name',
+      channelID = 'daily_at_time channel id',
+      channelDescription = 'daily_at_time channel description',
+      Importance importance = Importance.high,
+      Priority priority = Priority.high,
+      ticker = 'test ticker',
+      @required time,
+      @required day,
+      bool suffixTime = false}) async {
     if (title == null && message == null && time == null && day == null) {
       throw "Missing parameters, title: message : time";
     } else {
@@ -319,18 +433,26 @@ class Locally {
           channelID, channelName, channelDescription);
       var iOSPlatformChannelSpecifics = IOSNotificationDetails();
       var platformChannelSpecifics = NotificationDetails(
-          android: androidPlatformChannelSpecifics, iOS: iOSPlatformChannelSpecifics);
+          android: androidPlatformChannelSpecifics,
+          iOS: iOSPlatformChannelSpecifics);
+      var time = DateTime.now();
       if (suffixTime) {
-        await localNotificationsPlugin.showDailyAtTime(
-            0,
-            title,
-            message +
-                "${time.hour.toString()}:${time.minute.toString()}:${time.second.toString()}",
-            time,
-            platformChannelSpecifics);
+        await localNotificationsPlugin.periodicallyShow(
+          40 + random.nextInt(59 - 40),
+          title,
+          message +
+              "${time.hour.toString()}:${time.minute.toString()}:${time.second.toString()}",
+          RepeatInterval.weekly,
+          platformChannelSpecifics,
+        );
       } else {
-        await localNotificationsPlugin.showWeeklyAtDayAndTime(
-            0, title, message, day, time, platformChannelSpecifics);
+        await localNotificationsPlugin.periodicallyShow(
+          40 + random.nextInt(59 - 40),
+          title,
+          message,
+          RepeatInterval.weekly,
+          platformChannelSpecifics,
+        );
       }
     }
   }
@@ -346,6 +468,7 @@ class Locally {
   /// cancels a with a provided index id
   ///
   Future cancel(int index) async {
+    // ignore: unnecessary_null_comparison
     if (index == null) {
       throw 'Error: index required';
     } else {
